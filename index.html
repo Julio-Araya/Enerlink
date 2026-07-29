@@ -155,7 +155,7 @@
   .qlist p{font-size:14.5px;margin:0;max-width:none}
   .qlist .qh{color:var(--ink);font-weight:600;font-size:14.5px;margin-bottom:2px}
   .ilist{list-style:none;margin:6px 0 0}
-  .ilist li{display:block;grid-template-columns:none;padding:10px 0;border-bottom:1px solid var(--line-soft);font-size:13.5px;color:var(--ink-soft);line-height:1.5}
+  .ilist li{display:block;grid-template-columns:none;padding:10px 0;border-bottom:1px solid var(--line-soft);font-size:13.5px;color:var(--ink-soft);line-height:1.55;max-width:78ch}
   .ilist li:last-child{border-bottom:none;padding-bottom:0}
   .ilist b{display:block;color:var(--ink);font-weight:600;font-size:14px;margin-bottom:3px}
 
@@ -557,11 +557,11 @@
         <div>
           <p class="qh">¿Qué información buscaría antes de comprometerme?</p>
           <ul class="ilist">
-            <li><b>Segmentar la caída del success rate</b>¿Es pareja o se concentra en ciertos cargadores, sitios o modelos de hardware? Si pocos cargadores explican la mayoría de las fallas, el problema es otro.</li>
-            <li><b>Qué cambió hace 3 meses</b>La caída tiene fecha de inicio. Busco el evento gatillante: cargadores nuevos, cambio de proveedor de pago, una actualización.</li>
-            <li><b>Entrevistar a los 2 operadores que no abren el dashboard</b>Entender por qué no lo usan y qué hacen en WhatsApp en su lugar.</li>
-            <li><b>Ver la data cruda de las 380 alertas</b>Identificar cuáles se auto-resuelven y si son reconocibles por tipo, para validar si silenciar el ruido es técnicamente viable.</li>
-            <li><b>El origen del SLA de 15 min</b>¿Es un compromiso interno o un contrato de Enex con sus usuarios finales? Cambia a quién sirve la solución.</li>
+            <li><b>Segmentar la caída del success rate</b>¿La caída es pareja en toda la red, o se concentra en ciertos cargadores, sitios o modelos de hardware? Si, por ejemplo, 15 cargadores concentran la mayoría de las fallas, no es un problema de producto ni de alertas: son esos equipos, y la solución es repararlos o cambiarlos, no rediseñar el sistema.</li>
+            <li><b>Qué cambió hace 3 meses</b>La caída tiene fecha de inicio. Busco el evento gatillante: cargadores nuevos, cambio de proveedor de pago, una actualización. Idealmente, todos los cambios de infraestructura y telecomunicaciones de las estaciones deberían vivir en un repositorio consultable de forma fácil (incluso por un modelo de lenguaje interno). Es una oportunidad de producto.</li>
+            <li><b>Entrevistar al equipo de Enex, no solo a los operadores</b>Hablar con el Jefe de Operaciones y con los operadores, sobre todo los 2 que no abren el dashboard: entender por qué no lo usan y qué hacen en WhatsApp. Y no ir solo desde producto: sumar a alguien de ingeniería o diseño a estas entrevistas, para escuchar el problema desde varias miradas.</li>
+            <li><b>Ver la data cruda de las 380 alertas</b>Categorizar los incidentes por tipo (categorización de incidentes, en términos de soporte) para identificar cuáles se auto-resuelven y cuáles son recurrentes. Eso valida si silenciar el ruido es técnicamente viable y separa el ruido de los problemas de fondo.</li>
+            <li><b>El origen del SLA de 15 min</b>¿Es una meta interna que Enex se puso, o un contrato con sus clientes finales (un mall, una flota) con multas de por medio? Si es interno, hay flexibilidad para ajustarlo. Si es contractual, es intocable y la solución tiene que ayudar a cumplirlo sí o sí. Cambia la urgencia y el diseño.</li>
             <li><b>Si la alerta crítica es accionable por el operador</b>Si no existe una acción rápida (reset remoto, reintento) y requiere ir a terreno, enrutar mejor no cambia el desenlace. Es clave: sin esto, la solución no funciona.</li>
           </ul>
         </div>
