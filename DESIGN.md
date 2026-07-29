@@ -103,6 +103,40 @@ dentro del mismo contenedor de `--tree-max` para quedar centradas sobre las mism
 Prohibido: darle a una fila su propio `grid-template-columns` o su propio `max-width`.
 Si el árbol necesita otro ancho, se cambia la variable, no la fila.
 
+### 2.4 Rótulos: eyebrows y labels (jerarquía y contraste)
+
+Todos los rótulos en mayúsculas —eyebrow de sección (`01 · LA INDUSTRIA`), label de beat
+(`EL SÍNTOMA`, `LA ELECCIÓN`), encabezado de columna, clave de fila, insignia de caja—
+**heredan un único tratamiento**. Está definido en una sola regla agrupada en `index.html`,
+justo después de `section`, y alimentado por tres tokens:
+
+```css
+--label-size:13px;      /* rótulo normal */
+--label-size-sm:11.5px; /* insignia inline dentro de una caja */
+--label-ls:.08em;       /* espaciado entre letras */
+```
+
+Reglas:
+
+- **Contraste**: el color por defecto es `--ink-soft` (7.7:1 sobre `--bg`, AA holgado).
+  Los rótulos que marcan el foco de su bloque van en `--accent` (5.0:1, AA).
+  **Nunca `--ink-faint` en un rótulo**: da 2.9:1 sobre el fondo y desaparece proyectado.
+- **Tamaño**: mínimo 13px (11.5px solo para insignias inline, que van dentro de una caja
+  y se leen con su contexto al lado). Nada por debajo de eso.
+- **Espaciado**: `.08em` es el techo. El espaciado alto se ve elegante en pantalla cercana
+  y se vuelve ilegible proyectado; si un rótulo cuesta leerlo, se baja el `letter-spacing`
+  antes que cualquier otra cosa. Mayúsculas + mono se mantienen porque a este tamaño
+  y contraste ya no estorban.
+- **Peso** 500 en mono, para que la mayúscula no se vea deshilachada.
+
+Al agregar un rótulo nuevo: sumar su selector a la regla agrupada y dejar en su propia
+regla solo lo posicional (margen, padding, borde). Nunca redefinir `font-size`, `color`,
+`letter-spacing` ni `text-transform` por componente — si un rótulo necesita otro tamaño,
+se discute el token, no se parcha el componente.
+
+`--ink-faint` queda reservado para lo que no hay que leer: numeración auxiliar del nav,
+líneas y símbolos de diagrama, separadores. Nunca para un rótulo ni para un título de caja.
+
 ---
 
 ## 3. Checklist antes de cerrar un cambio
@@ -112,4 +146,5 @@ Si el árbol necesita otro ancho, se cambia la variable, no la fila.
 3. ¿Todo el texto de cuerpo quedó a la izquierda?
 4. ¿Las cajas que se comparan comparten grilla, padding y altura?
 5. ¿Las filas del árbol usan `--tree-cols` / `--tree-gap` / `--tree-max`?
-6. ¿La idea se dice una sola vez? (sin lead + nota + cierre repitiendo lo mismo)
+6. ¿Todo rótulo nuevo entró a la regla agrupada, sin tamaño ni color propios?
+7. ¿La idea se dice una sola vez? (sin lead + nota + cierre repitiendo lo mismo)

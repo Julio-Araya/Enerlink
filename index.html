@@ -22,6 +22,10 @@
     --danger-soft:#F6E7E4;
     --amber:#B5771A;
     --amber-soft:#F6EEDD;
+    /* rótulos (eyebrows, labels de beat y de caja). Ver DESIGN.md §2.4 */
+    --label-size:13px;
+    --label-size-sm:11.5px;
+    --label-ls:.08em;
     /* árbol: toda fila comparable usa estas tres. Ver DESIGN.md §2.3 */
     --tree-cols:1fr 1fr;
     --tree-gap:16px;
@@ -63,11 +67,18 @@
 
   main{padding:0 0 120px}
   section{padding:88px 72px 0;max-width:1100px;scroll-margin-top:0}
-  .eyebrow{
-    font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--accent);margin-bottom:18px;
-    display:flex;align-items:center;gap:10px;
+  /* rótulos: una sola fuente para eyebrows y labels. Ver DESIGN.md §2.4 */
+  .eyebrow,.beat-label,.sec-label,.col-head,.scope-col h4,.prd-row .k,
+  .cg-title,.cg-k,.actor .role,.cause .c-key,.ch-badge,.rtag,.hot-badge{
+    font-family:var(--mono);font-weight:500;font-size:var(--label-size);
+    letter-spacing:var(--label-ls);text-transform:uppercase;color:var(--ink-soft);
   }
+  /* rótulos que marcan el foco de su bloque → acento */
+  .eyebrow,.cg-title,.cg-k,.hot-badge{color:var(--accent)}
+  /* insignias inline dentro de una caja: un punto menos, mismo contraste */
+  .ch-badge,.rtag,.hot-badge{font-size:var(--label-size-sm);letter-spacing:.06em}
+
+  .eyebrow{margin-bottom:18px;display:flex;align-items:center;gap:10px}
   .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent)}
   h1{font-family:var(--disp);font-weight:500;font-size:clamp(38px,5vw,58px);line-height:1.04;letter-spacing:-.02em;margin-bottom:24px}
   h2{font-family:var(--disp);font-weight:500;font-size:clamp(28px,3.4vw,38px);line-height:1.1;letter-spacing:-.015em;margin-bottom:20px}
@@ -88,7 +99,7 @@
   /* el caso: beats */
   .beat{margin-top:72px}
   .beat:first-of-type{margin-top:44px}
-  .beat-label{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:18px}
+  .beat-label{margin-bottom:18px}
   .big-num{font-family:var(--disp);font-weight:500;font-size:clamp(52px,8vw,84px);line-height:1;letter-spacing:-.03em}
   .big-num .ba{color:var(--ink-faint);font-size:.5em;vertical-align:.15em;margin:0 4px}
   .big-num .bd{color:var(--danger)}
@@ -116,7 +127,7 @@
   .fork-lines path{stroke:var(--ink-faint);stroke-width:1;fill:none;vector-effect:non-scaling-stroke;opacity:.7}
   .cause{border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden;display:flex;flex-direction:column}
   .cause .c-head{background:var(--line-soft);border-bottom:1px solid var(--line);padding:12px 20px}
-  .cause .c-key{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px}
+  .cause .c-key{display:block;margin-bottom:3px}
   .cause .c-name{font-size:15.5px;font-weight:600;color:var(--ink);line-height:1.3;letter-spacing:-.01em}
   .cause .c-body{padding:16px 20px 18px;display:flex;flex-direction:column;flex:1}
   .cause .c-data{list-style:none;margin:0}
@@ -127,10 +138,10 @@
   .cause .c-note{font-size:13px;color:var(--ink-soft);margin:auto 0 0;padding-top:14px;border-top:1px solid var(--line);max-width:none}
   .choice{margin:4px 0 20px}
   .ch{border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:16px 18px}
-  .ch-badge{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;border:1px solid currentColor;border-radius:4px;padding:2px 6px;display:inline-block;margin-bottom:9px}
+  .ch-badge{border:1px solid currentColor;border-radius:4px;padding:2px 7px;display:inline-block;margin-bottom:9px}
   .ch-t{font-size:14px;font-weight:500}
-  .ch.a{color:var(--ink-faint)}
-  .ch.a .ch-t{color:var(--ink-faint)}
+  .ch.a{color:var(--ink-soft)}
+  .ch.a .ch-t{color:var(--ink-soft)}
   .ch.b{border-color:var(--accent);background:var(--accent-soft)}
   .ch.b .ch-badge{color:var(--accent)}
   .ch.b .ch-t{color:var(--accent);font-weight:600}
@@ -156,20 +167,20 @@
   .prd-body{padding:8px 26px 22px}
   .prd-row{display:grid;grid-template-columns:120px 1fr;gap:18px;padding:16px 0;border-bottom:1px solid var(--line-soft);align-items:baseline}
   .prd-row:last-child{border-bottom:none}
-  .prd-row .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint)}
+  .prd-row .k{letter-spacing:.06em}
   .prd-row .v{font-size:14.5px;color:var(--ink-soft)}
   .prd-row .v strong{color:var(--ink)}
   .metric-inline{font-family:var(--mono);font-size:13px}
   .metric-inline b{color:var(--accent)}
   .cgoal{background:var(--accent-soft);border-radius:10px;padding:16px 18px;margin:16px 0 6px}
-  .cg-title{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
-  .cg-row{display:grid;grid-template-columns:92px 1fr;gap:12px;padding:5px 0;align-items:baseline}
-  .cg-k{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent)}
+  .cg-title{margin-bottom:8px}
+  .cg-row{display:grid;grid-template-columns:108px 1fr;gap:12px;padding:5px 0;align-items:baseline}
+  .cg-k{letter-spacing:.05em}
   .cg-row p{font-size:13.5px;color:var(--ink);margin:0;max-width:none;line-height:1.5}
 
   /* scope grid */
   .scope{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
-  .scope-col h4{font-size:12.5px;font-family:var(--mono);letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px}
+  .scope-col h4{margin-bottom:10px}
   .scope-col.in h4{color:var(--accent)}
   .scope-col.out h4{color:var(--ink-faint)}
   .scope-col ul{list-style:none}
@@ -194,7 +205,7 @@
   .mm .v{font-size:19px;font-weight:600;font-family:var(--disp);margin-top:1px}
   .mm .v.d{color:var(--danger)}
   .mm .v.g{color:var(--accent)}
-  .sec-label{font-size:11px;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 9px}
+  .sec-label{margin:0 0 9px}
   .alert{border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin-bottom:8px}
   .alert.crit{border-color:var(--danger-soft);background:var(--danger-soft)}
   .alert-top{display:flex;justify-content:space-between;align-items:center}
@@ -255,7 +266,7 @@
   .mock-caption{font-size:12.5px;color:var(--ink-faint);margin-top:16px;font-family:var(--mono)}
 
   /* risks */
-  .rtag{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;color:var(--ink-faint);border:1px solid var(--line);border-radius:4px;padding:1px 6px;margin-left:8px;white-space:nowrap;vertical-align:1px}
+  .rtag{border:1px solid var(--line);border-radius:4px;padding:1px 6px;margin-left:8px;white-space:nowrap;vertical-align:1px}
   .oneliner{border-left:2px solid var(--accent);padding:2px 0 2px 18px;margin:20px 0}
   .oneliner p{font-size:16px;color:var(--ink);margin:0;max-width:70ch}
 
@@ -280,7 +291,7 @@
   .ind-top{display:grid;grid-template-columns:1fr 96px 1fr;gap:0;align-items:center;margin-bottom:6px}
   .actor{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:18px 20px;text-align:center}
   .actor.cpo,.actor.cms{border-color:var(--line);background:var(--line-soft)}
-  .actor .role{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;color:var(--ink-faint)}
+  .actor .role{margin-bottom:5px}
   .actor .nm{font-family:var(--disp);font-size:22px;font-weight:500;line-height:1.1}
   .actor .sig{color:var(--ink-faint)}
   .actor .desc{font-size:12px;color:var(--ink-faint);margin-top:4px}
@@ -289,7 +300,7 @@
   .ocpp .lbl{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);letter-spacing:.08em;background:var(--bg);padding:2px 6px;white-space:nowrap}
   .ocpp .sub{font-size:9px;color:var(--ink-faint);font-family:var(--mono);letter-spacing:.02em}
   .cols{display:grid;grid-template-columns:1fr 96px 1fr;margin-top:2px;align-items:start}
-  .col-head{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);padding:14px 14px 8px;text-align:left}
+  .col-head{padding:14px 14px 8px;text-align:left}
   .cstack{display:flex;flex-direction:column}
   .acc{border:1px solid var(--line);border-radius:9px;background:var(--card);margin:4px 0}
   .acc-head{display:flex;justify-content:space-between;align-items:center;gap:9px;width:100%;min-height:44px;padding:11px 14px;border:0;background:none;font-family:var(--sans);font-size:13px;color:var(--ink-soft);text-align:left;cursor:pointer}
@@ -305,7 +316,7 @@
   .link-cell .conn{width:100%;height:2px;background:var(--accent);position:relative}
   .link-cell .conn::before,.link-cell .conn::after{content:"";position:absolute;width:5px;height:5px;border-radius:50%;background:var(--accent);top:-1.5px}
   .link-cell .conn::before{left:0}.link-cell .conn::after{right:0}
-  .hot-badge{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:4px;padding:1px 5px;margin-left:2px}
+  .hot-badge{display:inline-block;border:1px solid var(--accent);border-radius:4px;padding:1px 6px;margin-left:2px}
   .ind-caption{font-size:13px;color:var(--ink-soft);background:var(--accent-soft);border-radius:10px;padding:16px 18px;margin-top:24px;line-height:1.55}
   .ind-caption b{color:var(--accent)}
   @media(max-width:880px){
@@ -523,8 +534,8 @@
         <div class="ch-t">Causa B · Se reacciona tarde</div>
       </div>
     </div>
-    <p>Ataco la Causa B este trimestre: más apalancamiento rápido, cabe en 2 developers, y es la mejora visible que Enex exige. La Causa A (arreglar las fallas) es infraestructura profunda y va al roadmap.</p>
-    <div class="oneliner"><p>Esto mejora el <span class="accent-word">tiempo de reacción</span>, no la tasa de fallas. Por eso mi métrica de éxito será el SLA, no el success rate directo.</p></div>
+    <p>Ataco la Causa B este trimestre: más apalancamiento rápido, cabe en 2 developers, y es la mejora visible que Enex exige. La Causa A (arreglar las fallas) es infraestructura y telecomunicaciones, y va al roadmap.</p>
+    <div class="oneliner"><p>Esto mejora el <span class="accent-word">tiempo de reacción</span>, no la tasa de fallas. Por eso la métrica de éxito será el SLA, no el success rate directo.</p></div>
   </div>
 </section>
 
