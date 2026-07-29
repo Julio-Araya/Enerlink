@@ -266,34 +266,26 @@
   .ind-map{margin:30px 0 8px}
   .ind-top{display:grid;grid-template-columns:1fr 96px 1fr;gap:0;align-items:center;margin-bottom:6px}
   .actor{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:18px 20px;text-align:center}
-  .actor.cpo{border-color:var(--amber-soft);background:var(--amber-soft)}
-  .actor.cms{border-color:var(--accent-soft);background:var(--accent-soft)}
-  .actor .role{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}
-  .actor.cpo .role{color:var(--amber)}
-  .actor.cms .role{color:var(--accent)}
+  .actor.cpo,.actor.cms{border-color:var(--line);background:var(--line-soft)}
+  .actor .role{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;color:var(--ink-faint)}
   .actor .nm{font-family:var(--disp);font-size:22px;font-weight:500;line-height:1.1}
-  .actor.cpo .sig{color:var(--amber)}
-  .actor.cms .sig{color:var(--accent)}
+  .actor .sig{color:var(--ink-faint)}
   .actor .desc{font-size:12px;color:var(--ink-faint);margin-top:4px}
-  .ocpp{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+  .ocpp{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
   .ocpp .line{width:100%;height:1px;background:var(--ink-faint);position:relative}
-  .ocpp .lbl{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);letter-spacing:.06em;background:var(--bg);padding:2px 6px;white-space:nowrap}
-  .ocpp .sub{font-size:9.5px;color:var(--ink-faint);font-family:var(--mono)}
+  .ocpp .lbl{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);letter-spacing:.08em;background:var(--bg);padding:2px 6px;white-space:nowrap}
+  .ocpp .sub{font-size:9px;color:var(--ink-faint);font-family:var(--mono);letter-spacing:.02em}
   .cols{display:grid;grid-template-columns:1fr 96px 1fr;margin-top:2px;align-items:start}
-  .col-head{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);padding:14px 4px 8px;text-align:center}
-  .col-head.l{color:var(--amber)}
-  .col-head.r{color:var(--accent)}
+  .col-head{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);padding:14px 14px 8px;text-align:left}
   .cstack{display:flex;flex-direction:column}
   .acc{border:1px solid var(--line);border-radius:9px;background:var(--card);margin:4px 0}
-  .acc-head{display:flex;justify-content:flex-end;align-items:center;gap:9px;width:100%;min-height:44px;padding:11px 14px;border:0;background:none;font-family:var(--sans);font-size:13px;color:var(--ink-soft);text-align:right;cursor:pointer}
+  .acc-head{display:flex;justify-content:space-between;align-items:center;gap:9px;width:100%;min-height:44px;padding:11px 14px;border:0;background:none;font-family:var(--sans);font-size:13px;color:var(--ink-soft);text-align:left;cursor:pointer}
   .acc .chev{font-family:var(--mono);font-size:13px;color:var(--ink-faint);line-height:1;transition:transform .25s ease;flex-shrink:0}
   .acc.open .chev{transform:rotate(45deg)}
   .acc-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s ease}
   .acc.open .acc-body{grid-template-rows:1fr}
   .acc-body>div{overflow:hidden}
-  .acc-body p{font-size:12.5px;color:var(--ink-soft);line-height:1.55;margin:0;max-width:none;padding:0 14px 12px;text-align:right}
-  .acc.r .acc-head,.cstack.r .acc-head{justify-content:flex-start;text-align:left}
-  .acc.r .acc-body p,.cstack.r .acc-body p{text-align:left}
+  .acc-body p{font-size:12.5px;color:var(--ink-soft);line-height:1.55;margin:0;max-width:none;padding:0 14px 12px;text-align:left}
   .acc.hot{border-color:var(--accent);background:var(--accent-soft)}
   .acc.hot .acc-head{color:var(--accent);font-weight:600}
   .link-cell{display:flex;align-items:center;justify-content:center;height:52px}
@@ -307,8 +299,6 @@
     .ind-top,.cols{grid-template-columns:1fr}
     .ocpp{flex-direction:row;padding:10px 0}
     .ocpp .line{width:40px;height:1px}
-    .cols .acc .acc-head{justify-content:space-between;text-align:left}
-    .cols .acc .acc-body p{text-align:left}
     .link-cell{display:none}
     .col-head.r{margin-top:14px}
   }
@@ -383,7 +373,7 @@
     </div>
 
     <div class="cols">
-      <div class="col-head l">Qué le importa a Enex</div>
+      <div class="col-head l">Drivers de crecimiento</div>
       <div></div>
       <div class="col-head r">Qué entrega Enerlink</div>
 
