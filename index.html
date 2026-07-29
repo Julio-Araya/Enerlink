@@ -154,6 +154,7 @@
   .qlist .qn{font-family:var(--mono);font-size:12px;color:var(--accent);padding-top:2px}
   .qlist p{font-size:14.5px;margin:0;max-width:none}
   .qlist .qh{color:var(--ink);font-weight:600;font-size:14.5px;margin-bottom:2px}
+  .qlist .q-intro{max-width:78ch;margin-bottom:2px}
   .ilist{list-style:none;margin:6px 0 0}
   .ilist li{display:block;grid-template-columns:none;padding:10px 0;border-bottom:1px solid var(--line-soft);font-size:13.5px;color:var(--ink-soft);line-height:1.55;max-width:78ch}
   .ilist li:last-child{border-bottom:none;padding-bottom:0}
@@ -570,7 +571,13 @@
         <span class="qn">03</span>
         <div>
           <p class="qh">¿Qué NO resolvería en esta iteración?</p>
-          <p>La causa raíz de los OCPP timeouts (es un producto en sí mismo, va al roadmap). La configuración self-service de reglas. El rediseño del dashboard (el equipo ya no lo mira). La clasificación de falla por responsabilidad.</p>
+          <p class="q-intro">No entra en esta iteración, pero sí en el horizonte. Estas son las próximas apuestas una vez estabilizada la reacción:</p>
+          <ul class="ilist">
+            <li><b>Causa raíz de los OCPP timeouts</b>Atacar por qué fallan los cargadores, no solo cómo reaccionamos. Conecta con la idea de tener la infraestructura y telecomunicaciones de cada estación en un repositorio consultable, para detectar deuda técnica y anticipar fallas. Es un producto en sí mismo.</li>
+            <li><b>Clasificación de falla por responsabilidad</b>Distinguir de quién es cada falla: del cargador (Enex la arregla), del medio de pago, de la red, o del vehículo del cliente (no es responsabilidad de Enex). Hoy todo se mezcla; separarlo permite atacar el success rate con foco y no perseguir fallas ajenas.</li>
+            <li><b>Self-service de reglas de alertas</b>Que cada operador configure sus propias reglas (qué alerta recibir, por qué canal, con qué umbral). No ahora, porque el equipo está saturado y sumarle configuración empeora la fatiga; primero reglas por defecto que funcionen solas.</li>
+            <li><b>Repensar el dashboard</b>No asumo de entrada que hay que rediseñarlo. Primero entender por qué el equipo no lo usa (2 de 4): puede ser un problema de diseño o de adopción. Según eso, se rediseña o se trabaja onboarding. Investigar antes de construir.</li>
+          </ul>
         </div>
       </li>
     </ul>
