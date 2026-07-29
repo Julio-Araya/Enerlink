@@ -22,6 +22,10 @@
     --danger-soft:#F6E7E4;
     --amber:#B5771A;
     --amber-soft:#F6EEDD;
+    /* árbol: toda fila comparable usa estas tres. Ver DESIGN.md §2.3 */
+    --tree-cols:1fr 1fr;
+    --tree-gap:16px;
+    --tree-max:880px;
     --disp:'Fraunces',Georgia,serif;
     --sans:'Inter',system-ui,sans-serif;
     --mono:'JetBrains Mono',monospace;
@@ -102,17 +106,26 @@
   .td-sub{font-size:12px;color:var(--ink-faint);margin-top:6px}
   .td .tv{font-family:var(--disp);font-size:23px;font-weight:500;white-space:nowrap}
   .td .tl{font-size:13px;color:var(--ink-soft)}
+  /* árbol: raíz + toda fila usan --tree-cols/--tree-gap/--tree-max. Ver DESIGN.md §2.3 */
+  .tree{max-width:var(--tree-max)}
+  .tree-row{display:grid;grid-template-columns:var(--tree-cols);gap:var(--tree-gap);max-width:var(--tree-max);align-items:stretch}
   .fork-top{text-align:center}
   .symptom{display:inline-block;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:12px 24px;font-family:var(--disp);font-size:19px;font-weight:500}
   .symptom .s-down{color:var(--danger)}
   .fork-lines{display:block;width:72%;height:36px;margin:2px auto}
   .fork-lines path{stroke:var(--ink-faint);stroke-width:1;fill:none;vector-effect:non-scaling-stroke;opacity:.7}
-  .fork-branches{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .cause{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:18px 20px}
-  .cause .c-tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-bottom:10px}
-  .cause .c-data{font-family:var(--mono);font-size:12.5px;color:var(--ink);line-height:1.7}
-  .cause .c-note{font-size:13px;color:var(--ink-soft);margin:10px 0 0;max-width:none}
-  .choice{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:4px 0 20px;max-width:880px}
+  .cause{border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden;display:flex;flex-direction:column}
+  .cause .c-head{background:var(--line-soft);border-bottom:1px solid var(--line);padding:12px 20px}
+  .cause .c-key{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px}
+  .cause .c-name{font-size:15.5px;font-weight:600;color:var(--ink);line-height:1.3;letter-spacing:-.01em}
+  .cause .c-body{padding:16px 20px 18px;display:flex;flex-direction:column;flex:1}
+  .cause .c-data{list-style:none;margin:0}
+  .cause .c-data li{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:13px;color:var(--ink-soft)}
+  .cause .c-data li:first-child{padding-top:0}
+  .cause .c-data li:last-child{border-bottom:none}
+  .cause .c-data .cv{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--ink);white-space:nowrap}
+  .cause .c-note{font-size:13px;color:var(--ink-soft);margin:auto 0 0;padding-top:14px;border-top:1px solid var(--line);max-width:none}
+  .choice{margin:4px 0 20px}
   .ch{border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:16px 18px}
   .ch-badge{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;border:1px solid currentColor;border-radius:4px;padding:2px 6px;display:inline-block;margin-bottom:9px}
   .ch-t{font-size:14px;font-weight:500}
@@ -239,7 +252,7 @@
   @keyframes msgin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   @keyframes typing{0%{opacity:0;max-height:0;padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0}12%{opacity:1;max-height:34px;padding-top:9px;padding-bottom:9px;margin-top:2px;margin-bottom:2px}82%{opacity:1;max-height:34px;padding-top:9px;padding-bottom:9px;margin-top:2px;margin-bottom:2px}100%{opacity:0;max-height:0;padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0}}
   @keyframes tdot{0%,100%{opacity:.35}50%{opacity:1}}
-  .mock-caption{font-size:12.5px;color:var(--ink-faint);text-align:center;margin-top:16px;font-family:var(--mono)}
+  .mock-caption{font-size:12.5px;color:var(--ink-faint);margin-top:16px;font-family:var(--mono)}
 
   /* risks */
   .rtag{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;color:var(--ink-faint);border:1px solid var(--line);border-radius:4px;padding:1px 6px;margin-left:8px;white-space:nowrap;vertical-align:1px}
@@ -312,7 +325,7 @@
     .brand,.brand-sub,.nav-foot{width:100%}
     .brand-sub{margin-bottom:8px}.nav-foot{margin-top:12px}
     section,.end{padding-left:24px;padding-right:24px}
-    .scope,.mock-grid,.fork-branches,.choice{grid-template-columns:1fr}
+    .scope,.mock-grid,.tree-row{grid-template-columns:1fr}
     .prd-row,.cg-row{grid-template-columns:1fr}
     .hero{min-height:auto;padding:80px 0 40px}
   }
@@ -447,7 +460,7 @@
     <div class="beat-label">La señal y el dato</div>
     <div class="trap">
       <div class="trap-quote">"Necesitamos alertas más inteligentes, mi equipo no puede estar pendiente del dashboard todo el día."<span class="who">— Jefe de Operaciones, Enex</span></div>
-      <p class="trap-read">Esta frase expresa frustración más que un dato. Y apunta a que el problema son las alertas. Pero los datos dicen otra cosa:</p>
+      <p class="trap-read">Esta frase y la amenaza de Enex expresan más <strong>frustración</strong> que un dato sobre el problema. Y apuntan a que el problema son las alertas, pero los datos dicen otra cosa:</p>
       <div class="trap-data">
         <div class="td col">
           <div class="td-main"><span class="tv">71%</span><span class="tl">de las alertas se auto-resuelven solas</span></div>
@@ -460,28 +473,47 @@
 
   <div class="beat">
     <div class="beat-label">Un síntoma, dos causas</div>
-    <div class="fork-top"><div class="symptom">Success rate <span class="s-down">78% ↓</span></div></div>
-    <svg class="fork-lines" viewBox="0 0 100 36" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M50 0 V8 C50 26 25 16 25 36"></path>
-      <path d="M50 0 V8 C50 26 75 16 75 36"></path>
-    </svg>
-    <div class="fork-branches">
-      <div class="cause">
-        <div class="c-tag">Causa A · Las sesiones fallan</div>
-        <div class="c-data">OCPP timeout 40%<br>falla de pago 25%<br>offline 20%</div>
-        <p class="c-note">85% de los incidentes son técnicos. Baja el success rate de raíz. Es infraestructura.</p>
-      </div>
-      <div class="cause">
-        <div class="c-tag">Causa B · Se reacciona tarde</div>
-        <div class="c-data">27 min de respuesta vs 15 comprometidos<br>3 de 10 críticas dentro de SLA</div>
-        <p class="c-note">El equipo no contiene el daño a tiempo.</p>
+    <div class="tree">
+      <div class="fork-top"><div class="symptom">Success rate <span class="s-down">78% ↓</span></div></div>
+      <svg class="fork-lines" viewBox="0 0 100 36" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M50 0 V8 C50 26 25 16 25 36"></path>
+        <path d="M50 0 V8 C50 26 75 16 75 36"></path>
+      </svg>
+      <div class="tree-row">
+        <div class="cause">
+          <div class="c-head">
+            <span class="c-key">Causa A</span>
+            <span class="c-name">Las sesiones fallan</span>
+          </div>
+          <div class="c-body">
+            <ul class="c-data">
+              <li><span>OCPP timeout</span><span class="cv">40%</span></li>
+              <li><span>Falla de pago</span><span class="cv">25%</span></li>
+              <li><span>Cargador offline</span><span class="cv">20%</span></li>
+            </ul>
+            <p class="c-note">85% de los incidentes son técnicos. Baja el success rate de raíz. Es infraestructura.</p>
+          </div>
+        </div>
+        <div class="cause">
+          <div class="c-head">
+            <span class="c-key">Causa B</span>
+            <span class="c-name">Se reacciona tarde</span>
+          </div>
+          <div class="c-body">
+            <ul class="c-data">
+              <li><span>Tiempo de respuesta</span><span class="cv">27 min · vs 15</span></li>
+              <li><span>Críticas dentro de SLA</span><span class="cv">3 de 10</span></li>
+            </ul>
+            <p class="c-note">El equipo no contiene el daño a tiempo.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="beat">
     <div class="beat-label">La elección</div>
-    <div class="choice">
+    <div class="choice tree-row">
       <div class="ch a">
         <span class="ch-badge">Roadmap</span>
         <div class="ch-t">Causa A · Las sesiones fallan</div>
