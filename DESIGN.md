@@ -137,6 +137,25 @@ se discute el token, no se parcha el componente.
 `--ink-faint` queda reservado para lo que no hay que leer: numeración auxiliar del nav,
 líneas y símbolos de diagrama, separadores. Nunca para un rótulo ni para un título de caja.
 
+### 2.5 Movimiento
+
+Esto es una presentación que alguien explica en vivo. El movimiento sirve para que un
+mockup **cobre vida una vez**; después tiene que quedarse quieto para poder hablar sobre él.
+
+- **Nunca `infinite`.** Ninguna animación de contenido se repite sola. La única excepción
+  viva es el punto del `scroll-hint` del hero, que es un indicador, no contenido.
+- **Una vez al entrar en viewport**, vía `IntersectionObserver`, y con un estado final
+  completo y estable. La secuencia entera no pasa de ~5 s.
+- **Re-disparo explícito**: botón `.replay` neutro sobre el mockup, y reset automático
+  cuando el bloque sale por completo del viewport (`intersectionRatio === 0`) para que
+  vuelva a reproducirse al regresar. Nunca se re-dispara con el bloque a la vista.
+- **Reiniciar de verdad**: pausar con `animation-play-state` NO reinicia una animación ya
+  terminada. El patrón correcto es estado base oculto (`:not(.play){opacity:0}`) y la
+  `animation` declarada sólo bajo `.play`; al quitar y volver a poner la clase (con un
+  reflow en medio) la animación corre desde cero.
+- **`prefers-reduced-motion`**: el bloque aparece directo en su estado final, el control
+  de reproducción se oculta y el JS escribe los valores finales sin interpolar.
+
 ---
 
 ## 3. Checklist antes de cerrar un cambio
@@ -147,4 +166,5 @@ líneas y símbolos de diagrama, separadores. Nunca para un rótulo ni para un t
 4. ¿Las cajas que se comparan comparten grilla, padding y altura?
 5. ¿Las filas del árbol usan `--tree-cols` / `--tree-gap` / `--tree-max`?
 6. ¿Todo rótulo nuevo entró a la regla agrupada, sin tamaño ni color propios?
-7. ¿La idea se dice una sola vez? (sin lead + nota + cierre repitiendo lo mismo)
+7. ¿Ninguna animación quedó en loop, y todas terminan en un estado quieto?
+8. ¿La idea se dice una sola vez? (sin lead + nota + cierre repitiendo lo mismo)
