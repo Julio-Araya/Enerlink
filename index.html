@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caso Enerlink · Julio Araya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7F8F5;
+    --ink:#16201B;
+    --ink-soft:#4B564F;
+    --ink-faint:#8A938C;
+    --line:#E2E6DF;
+    --line-soft:#EDEFEA;
+    --card:#FFFFFF;
+    --accent:#1F7A54;
+    --accent-soft:#E7F2EC;
+    --danger:#B23A2E;
+    --danger-soft:#F6E7E4;
+    --amber:#B5771A;
+    --amber-soft:#F6EEDD;
+    --disp:'Fraunces',Georgia,serif;
+    --sans:'Inter',system-ui,sans-serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:var(--sans);font-size:16px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent-soft);color:var(--accent)}
+
+  /* layout */
+  .wrap{display:grid;grid-template-columns:220px 1fr}
+  nav{
+    position:sticky;top:0;height:100vh;padding:38px 22px;
+    border-right:1px solid var(--line);
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .brand{font-family:var(--disp);font-weight:500;font-size:19px;line-height:1.2;margin-bottom:4px}
+  .brand span{color:var(--accent)}
+  .brand-sub{font-size:12px;color:var(--ink-faint);margin-bottom:30px;letter-spacing:.02em}
+  nav a{
+    font-size:13.5px;color:var(--ink-soft);text-decoration:none;
+    padding:7px 10px;border-radius:7px;display:flex;gap:10px;align-items:baseline;
+    transition:background .15s,color .15s;
+  }
+  nav a .n{font-family:var(--mono);font-size:11px;color:var(--ink-faint);min-width:16px}
+  nav a:hover{background:var(--line-soft);color:var(--ink)}
+  nav a.active{background:var(--accent-soft);color:var(--accent)}
+  nav a.active .n{color:var(--accent)}
+  .nav-foot{margin-top:auto;font-size:11.5px;color:var(--ink-faint);line-height:1.5}
+  .nav-foot a{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--line)}
+
+  main{padding:0 0 120px}
+  section{padding:88px 72px 0;max-width:1100px;scroll-margin-top:0}
+  .eyebrow{
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:18px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--accent)}
+  h1{font-family:var(--disp);font-weight:500;font-size:clamp(38px,5vw,58px);line-height:1.04;letter-spacing:-.02em;margin-bottom:24px}
+  h2{font-family:var(--disp);font-weight:500;font-size:clamp(28px,3.4vw,38px);line-height:1.1;letter-spacing:-.015em;margin-bottom:20px}
+  h3{font-family:var(--sans);font-weight:600;font-size:16px;margin-bottom:8px;letter-spacing:-.01em}
+  p{color:var(--ink-soft);margin-bottom:16px;max-width:64ch}
+  p.lead{font-size:19px;line-height:1.6;color:var(--ink);max-width:60ch}
+  strong{color:var(--ink);font-weight:600}
+  .accent-word{color:var(--accent);font-weight:500}
+  em{font-style:italic;color:var(--ink)}
+
+  /* hero */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:0;padding-bottom:0}
+  .hero-sub{font-size:17px;color:var(--ink-soft);margin:0;max-width:none}
+  .scroll-hint{margin-top:44px;font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);letter-spacing:.08em;display:flex;align-items:center;gap:8px}
+  .scroll-hint .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:pulse 1.8s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+  /* el caso: beats */
+  .beat{margin-top:72px}
+  .beat:first-of-type{margin-top:44px}
+  .beat-label{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:18px}
+  .big-num{font-family:var(--disp);font-weight:500;font-size:clamp(52px,8vw,84px);line-height:1;letter-spacing:-.03em}
+  .big-num .ba{color:var(--ink-faint);font-size:.5em;vertical-align:.15em;margin:0 4px}
+  .big-num .bd{color:var(--danger)}
+  .big-lbl{font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);margin-top:12px}
+  .beat-note{margin-top:14px}
+  .trap{display:grid;grid-template-columns:1.1fr 1fr;gap:26px;align-items:center;margin-top:4px;max-width:980px}
+  .trap-quote{font-family:var(--disp);font-style:italic;font-size:18px;line-height:1.55;color:var(--ink);border-left:2px solid var(--line);padding-left:18px}
+  .trap-quote .who{display:block;font-family:var(--sans);font-style:normal;font-size:12.5px;color:var(--ink-faint);margin-top:10px}
+  .trap-data{display:flex;flex-direction:column;gap:10px}
+  .td-lead{font-size:13.5px;font-weight:500;color:var(--ink);line-height:1.45}
+  .td{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:13px 16px;display:flex;align-items:baseline;gap:12px}
+  .td.col{display:block}
+  .td-main{display:flex;align-items:baseline;gap:12px}
+  .td-sub{font-size:12px;color:var(--ink-faint);margin-top:6px}
+  .td .tv{font-family:var(--disp);font-size:23px;font-weight:500;white-space:nowrap}
+  .td .tl{font-size:13px;color:var(--ink-soft)}
+  .trap-close{margin-top:20px;color:var(--ink);max-width:66ch}
+  .fork-top{text-align:center}
+  .symptom{display:inline-block;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:12px 24px;font-family:var(--disp);font-size:19px;font-weight:500}
+  .symptom .s-down{color:var(--danger)}
+  .fork-lines{display:block;width:72%;height:36px;margin:2px auto}
+  .fork-lines path{stroke:var(--ink-faint);stroke-width:1;fill:none;vector-effect:non-scaling-stroke;opacity:.7}
+  .fork-branches{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .cause{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:18px 20px}
+  .cause .c-tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-bottom:10px}
+  .cause .c-data{font-family:var(--mono);font-size:12.5px;color:var(--ink);line-height:1.7}
+  .cause .c-note{font-size:13px;color:var(--ink-soft);margin:10px 0 0;max-width:none}
+  .choice{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:4px 0 20px;max-width:880px}
+  .ch{border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:16px 18px}
+  .ch-badge{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;border:1px solid currentColor;border-radius:4px;padding:2px 6px;display:inline-block;margin-bottom:9px}
+  .ch-t{font-size:14px;font-weight:500}
+  .ch.a{color:var(--ink-faint)}
+  .ch.a .ch-t{color:var(--ink-faint)}
+  .ch.b{border-color:var(--accent);background:var(--accent-soft)}
+  .ch.b .ch-badge{color:var(--accent)}
+  .ch.b .ch-t{color:var(--accent);font-weight:600}
+
+  /* generic blocks */
+  .block{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:24px;margin:14px 0;max-width:880px}
+  .qlist{list-style:none;margin:8px 0}
+  .qlist li{padding:14px 0;border-bottom:1px solid var(--line-soft);display:grid;grid-template-columns:22px 1fr;gap:14px}
+  .qlist li:last-child{border-bottom:none;padding-bottom:0}
+  .qlist .qn{font-family:var(--mono);font-size:12px;color:var(--accent);padding-top:2px}
+  .qlist p{font-size:14.5px;margin:0;max-width:none}
+  .qlist .qh{color:var(--ink);font-weight:600;font-size:14.5px;margin-bottom:2px}
+  .ilist{list-style:none;margin:6px 0 0}
+  .ilist li{display:block;grid-template-columns:none;padding:10px 0;border-bottom:1px solid var(--line-soft);font-size:13.5px;color:var(--ink-soft);line-height:1.5}
+  .ilist li:last-child{border-bottom:none;padding-bottom:0}
+  .ilist b{display:block;color:var(--ink);font-weight:600;font-size:14px;margin-bottom:3px}
+
+  /* PRD card */
+  .prd{border:1px solid var(--line);border-radius:14px;background:var(--card);overflow:hidden;margin:22px 0;max-width:920px}
+  .prd-head{padding:22px 26px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+  .prd-head .t{font-family:var(--disp);font-size:20px;font-weight:500}
+  .prd-head .pill{font-family:var(--mono);font-size:11px;color:var(--accent);background:var(--accent-soft);padding:5px 11px;border-radius:20px;letter-spacing:.04em}
+  .prd-body{padding:8px 26px 22px}
+  .prd-row{display:grid;grid-template-columns:120px 1fr;gap:18px;padding:16px 0;border-bottom:1px solid var(--line-soft);align-items:baseline}
+  .prd-row:last-child{border-bottom:none}
+  .prd-row .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint)}
+  .prd-row .v{font-size:14.5px;color:var(--ink-soft)}
+  .prd-row .v strong{color:var(--ink)}
+  .metric-inline{font-family:var(--mono);font-size:13px}
+  .metric-inline b{color:var(--accent)}
+  .cgoal{background:var(--accent-soft);border-radius:10px;padding:16px 18px;margin:16px 0 6px}
+  .cg-title{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .cg-row{display:grid;grid-template-columns:92px 1fr;gap:12px;padding:5px 0;align-items:baseline}
+  .cg-k{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent)}
+  .cg-row p{font-size:13.5px;color:var(--ink);margin:0;max-width:none;line-height:1.5}
+
+  /* scope grid */
+  .scope{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+  .scope-col h4{font-size:12.5px;font-family:var(--mono);letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px}
+  .scope-col.in h4{color:var(--accent)}
+  .scope-col.out h4{color:var(--ink-faint)}
+  .scope-col ul{list-style:none}
+  .scope-col li{font-size:13.5px;color:var(--ink-soft);padding:7px 0;border-bottom:1px solid var(--line-soft);display:flex;gap:9px;align-items:baseline}
+  .scope-col li:last-child{border-bottom:none}
+  .scope-col .mk{font-family:var(--mono);font-size:12px}
+  .scope-col.in .mk{color:var(--accent)}
+  .scope-col.out .mk{color:var(--ink-faint)}
+
+  /* mockup embed */
+  .mock-frame{border:1px solid var(--line);border-radius:14px;background:var(--bg);padding:20px;margin:24px 0}
+  .mock-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;align-items:start}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
+  .panel-head .pt{font-weight:600;font-size:14px;display:flex;align-items:center;gap:7px}
+  .panel-head .pt::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--accent)}
+  .panel-head .loc{font-size:11px;color:var(--ink-faint);font-family:var(--mono)}
+  .panel-sub{font-size:11.5px;color:var(--ink-faint);margin:2px 0 14px}
+  .mini-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+  .mm{background:var(--bg);border-radius:8px;padding:9px 10px}
+  .mm .l{font-size:10.5px;color:var(--ink-faint)}
+  .mm .v{font-size:19px;font-weight:600;font-family:var(--disp);margin-top:1px}
+  .mm .v.d{color:var(--danger)}
+  .mm .v.g{color:var(--accent)}
+  .sec-label{font-size:11px;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 9px}
+  .alert{border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin-bottom:8px}
+  .alert.crit{border-color:var(--danger-soft);background:var(--danger-soft)}
+  .alert-top{display:flex;justify-content:space-between;align-items:center}
+  .alert-top .at{font-weight:600;font-size:13px;display:flex;gap:7px;align-items:center}
+  .alert.crit .at{color:var(--danger)}
+  .alert-top .sla{font-size:11.5px;font-weight:600;font-family:var(--mono)}
+  .alert.crit .sla{color:var(--danger)}
+  .alert .where{font-size:12.5px;color:var(--ink);margin:6px 0 8px}
+  .alert.warn .at{color:var(--amber)}
+  .alert.warn .st{font-size:11px;color:var(--ink-faint);font-family:var(--mono)}
+  .abtn{font-size:11.5px;padding:4px 10px;border:1px solid var(--line);background:var(--card);border-radius:6px;color:var(--ink-soft);cursor:default}
+  .abtn.primary{border-color:var(--accent);color:var(--accent)}
+  .muted-row{display:flex;gap:8px;align-items:center;padding:9px 11px;background:var(--bg);border-radius:8px;font-size:11.5px;color:var(--ink-soft);margin-top:6px}
+  .muted-row .ic{color:var(--ink-faint)}
+  /* whatsapp */
+  .wa{border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+  .wa-head{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#075E54;color:#fff}
+  .wa-back{font-size:20px;line-height:1;opacity:.9}
+  .wa-gav{width:30px;height:30px;border-radius:50%;background:#E7F2EC;color:#075E54;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+  .wa-hinfo{min-width:0;flex:1}
+  .wa-name{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .wa-status{font-size:10px;opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .wa-more{font-size:16px;opacity:.9}
+  .wa-chat{background:#ECE5DD url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cg fill='none' stroke='%23d8ccbf' stroke-width='1' opacity='.5'%3E%3Ccircle cx='22' cy='26' r='6'/%3E%3Ccircle cx='124' cy='82' r='4'/%3E%3Ccircle cx='64' cy='128' r='5'/%3E%3Cpath d='M32 96l8 8m0-8l-8 8'/%3E%3Cpath d='M74 62q6 -10 12 0t12 0'/%3E%3Cpath d='M112 120l6 6m0-6l-6 6'/%3E%3Cpath d='M96 20q8 -8 16 0'/%3E%3C/g%3E%3C/svg%3E");background-size:150px;padding:12px 10px 10px;display:flex;flex-direction:column;min-height:300px}
+  .wa-day{align-self:center;background:rgba(255,255,255,.85);color:#54656F;font-size:10px;padding:3px 10px;border-radius:6px;margin-bottom:10px;box-shadow:0 1px 1px rgba(0,0,0,.06)}
+  .msg{position:relative;max-width:86%;border-radius:8px;padding:6px 8px 4px;margin:2px 0;font-size:12.5px;line-height:1.45;color:#111B21;box-shadow:0 1px 1px rgba(0,0,0,.08);animation:msgin .4s ease both paused}
+  .msg .mt{margin:0}
+  .msg.in{align-self:flex-start;background:#fff;border-top-left-radius:0;margin-left:30px}
+  .msg.in::before{content:"";position:absolute;top:0;left:-7px;width:0;height:0;border-right:7px solid #fff;border-bottom:9px solid transparent}
+  .msg.out{align-self:flex-end;background:#DCF8C6;border-top-right-radius:0}
+  .msg.out::before{content:"";position:absolute;top:0;right:-7px;width:0;height:0;border-left:7px solid #DCF8C6;border-bottom:9px solid transparent}
+  .msg.ok{background:#E9F6EC}
+  .msg.ok::before{border-right-color:#E9F6EC}
+  .m-av{position:absolute;left:-30px;top:0;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff}
+  .av-bot{background:var(--accent)}
+  .av-carla{background:#A437A4}
+  .sender{font-size:11px;font-weight:600;margin-bottom:1px}
+  .s-bot{color:var(--accent)}
+  .s-carla{color:#A437A4}
+  .msg .sla{color:var(--amber)}
+  .wa-cta{border-top:1px solid rgba(17,27,33,.08);margin:6px -8px 0;padding:7px 8px 3px;text-align:center;color:#027EB5;font-size:12.5px;font-weight:500}
+  .stamp{display:block;text-align:right;font-size:9.5px;color:#667781;margin-top:3px}
+  .ticks{color:#53BDEB}
+  .typing{position:relative;align-self:flex-start;background:#fff;border-radius:8px;border-top-left-radius:0;margin:2px 0 2px 30px;padding:9px 10px;display:flex;gap:3px;align-items:center;box-shadow:0 1px 1px rgba(0,0,0,.08);overflow:visible;animation:typing 2.2s ease 4.4s both paused}
+  .typing::before{content:"";position:absolute;top:0;left:-7px;width:0;height:0;border-right:7px solid #fff;border-bottom:9px solid transparent}
+  .tdot{width:5px;height:5px;border-radius:50%;background:#9AA5AC;animation:tdot 1s ease infinite paused}
+  .tdot:nth-child(3){animation-delay:.15s}
+  .tdot:nth-child(4){animation-delay:.3s}
+  .wa-input{display:flex;align-items:center;gap:6px;padding:8px 10px;background:#F0F2F5}
+  .wa-field{flex:1;display:flex;align-items:center;gap:8px;background:#fff;border-radius:20px;padding:7px 12px;color:#8696A0;font-size:12.5px}
+  .wa-field .ph{flex:1}
+  .wa-field .wi{font-size:14px;opacity:.75}
+  .wa-mic{width:32px;height:32px;border-radius:50%;background:#00A884;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+  .wa.play .msg,.wa.play .typing,.wa.play .tdot{animation-play-state:running}
+  @keyframes msgin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes typing{0%{opacity:0;max-height:0;padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0}12%{opacity:1;max-height:34px;padding-top:9px;padding-bottom:9px;margin-top:2px;margin-bottom:2px}82%{opacity:1;max-height:34px;padding-top:9px;padding-bottom:9px;margin-top:2px;margin-bottom:2px}100%{opacity:0;max-height:0;padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0}}
+  @keyframes tdot{0%,100%{opacity:.35}50%{opacity:1}}
+  .mock-caption{font-size:12.5px;color:var(--ink-faint);text-align:center;margin-top:16px;font-family:var(--mono)}
+
+  /* risks */
+  .rtag{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;color:var(--ink-faint);border:1px solid var(--line);border-radius:4px;padding:1px 6px;margin-left:8px;white-space:nowrap;vertical-align:1px}
+  .oneliner{border-left:2px solid var(--accent);padding:2px 0 2px 18px;margin:20px 0}
+  .oneliner p{font-size:16px;color:var(--ink);margin:0;max-width:70ch}
+
+  /* discussion */
+  .disc{margin:14px 0;padding:22px 0;border-top:1px solid var(--line)}
+  .disc:first-of-type{border-top:none;padding-top:6px}
+  .disc .qn{font-family:var(--mono);font-size:12px;color:var(--accent);margin-bottom:8px}
+  .disc h3{font-family:var(--disp);font-weight:500;font-size:19px;margin-bottom:10px}
+  .disc p{font-size:15px;max-width:70ch}
+  .dlist{list-style:none;margin:2px 0 16px;max-width:70ch}
+  .dlist li{position:relative;font-size:14.5px;color:var(--ink-soft);padding:5px 0 5px 18px;line-height:1.55}
+  .dlist li::before{content:"–";position:absolute;left:0;color:var(--accent)}
+  .dlist li b{color:var(--ink);font-weight:600}
+
+  .cta-link{display:inline-flex;align-items:center;gap:9px;font-size:14px;color:var(--accent);text-decoration:none;font-weight:500;border:1px solid var(--accent);padding:11px 18px;border-radius:9px;transition:background .15s;margin-top:8px}
+  .cta-link:hover{background:var(--accent-soft)}
+  .cta-link .arr{font-family:var(--mono)}
+
+  /* industria */
+  .zoom-note{font-family:var(--mono);font-size:12px;color:var(--ink-faint);margin-bottom:30px;letter-spacing:.02em}
+  .ind-map{margin:30px 0 8px}
+  .ind-top{display:grid;grid-template-columns:1fr 96px 1fr;gap:0;align-items:center;margin-bottom:6px}
+  .actor{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:18px 20px;text-align:center}
+  .actor.cpo{border-color:var(--amber-soft);background:var(--amber-soft)}
+  .actor.cms{border-color:var(--accent-soft);background:var(--accent-soft)}
+  .actor .role{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}
+  .actor.cpo .role{color:var(--amber)}
+  .actor.cms .role{color:var(--accent)}
+  .actor .nm{font-family:var(--disp);font-size:22px;font-weight:500;line-height:1.1}
+  .actor.cpo .sig{color:var(--amber)}
+  .actor.cms .sig{color:var(--accent)}
+  .actor .desc{font-size:12px;color:var(--ink-faint);margin-top:4px}
+  .ocpp{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+  .ocpp .line{width:100%;height:1px;background:var(--ink-faint);position:relative}
+  .ocpp .lbl{font-family:var(--mono);font-size:10.5px;color:var(--ink-soft);letter-spacing:.06em;background:var(--bg);padding:2px 6px;white-space:nowrap}
+  .ocpp .sub{font-size:9.5px;color:var(--ink-faint);font-family:var(--mono)}
+  .cols{display:grid;grid-template-columns:1fr 96px 1fr;margin-top:2px;align-items:start}
+  .col-head{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);padding:14px 4px 8px;text-align:center}
+  .col-head.l{color:var(--amber)}
+  .col-head.r{color:var(--accent)}
+  .cstack{display:flex;flex-direction:column}
+  .acc{border:1px solid var(--line);border-radius:9px;background:var(--card);margin:4px 0}
+  .acc-head{display:flex;justify-content:flex-end;align-items:center;gap:9px;width:100%;min-height:44px;padding:11px 14px;border:0;background:none;font-family:var(--sans);font-size:13px;color:var(--ink-soft);text-align:right;cursor:pointer}
+  .acc .chev{font-family:var(--mono);font-size:13px;color:var(--ink-faint);line-height:1;transition:transform .25s ease;flex-shrink:0}
+  .acc.open .chev{transform:rotate(45deg)}
+  .acc-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s ease}
+  .acc.open .acc-body{grid-template-rows:1fr}
+  .acc-body>div{overflow:hidden}
+  .acc-body p{font-size:12.5px;color:var(--ink-soft);line-height:1.55;margin:0;max-width:none;padding:0 14px 12px;text-align:right}
+  .acc.r .acc-head,.cstack.r .acc-head{justify-content:flex-start;text-align:left}
+  .acc.r .acc-body p,.cstack.r .acc-body p{text-align:left}
+  .acc.hot{border-color:var(--accent);background:var(--accent-soft)}
+  .acc.hot .acc-head{color:var(--accent);font-weight:600}
+  .link-cell{display:flex;align-items:center;justify-content:center;height:52px}
+  .link-cell .conn{width:100%;height:2px;background:var(--accent);position:relative}
+  .link-cell .conn::before,.link-cell .conn::after{content:"";position:absolute;width:5px;height:5px;border-radius:50%;background:var(--accent);top:-1.5px}
+  .link-cell .conn::before{left:0}.link-cell .conn::after{right:0}
+  .hot-badge{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:4px;padding:1px 5px;margin-left:2px}
+  .ind-caption{font-size:13px;color:var(--ink-soft);background:var(--accent-soft);border-radius:10px;padding:16px 18px;margin-top:24px;line-height:1.55}
+  .ind-caption b{color:var(--accent)}
+  @media(max-width:880px){
+    .ind-top,.cols{grid-template-columns:1fr}
+    .ocpp{flex-direction:row;padding:10px 0}
+    .ocpp .line{width:40px;height:1px}
+    .cols .acc .acc-head{justify-content:space-between;text-align:left}
+    .cols .acc .acc-body p{text-align:left}
+    .link-cell{display:none}
+    .col-head.r{margin-top:14px}
+  }
+
+  .end{padding:80px 72px 40px;max-width:1100px;color:var(--ink-faint);font-size:13px;font-family:var(--mono)}
+  .version{max-width:1100px;padding:0 72px 24px;text-align:right;font-family:var(--mono);font-size:10.5px;color:var(--ink-faint)}
+
+  @media(max-width:880px){
+    .wrap{grid-template-columns:1fr}
+    nav{position:static;height:auto;flex-direction:row;flex-wrap:wrap;gap:6px;padding:20px;border-right:none;border-bottom:1px solid var(--line)}
+    .brand,.brand-sub,.nav-foot{width:100%}
+    .brand-sub{margin-bottom:8px}.nav-foot{margin-top:12px}
+    section,.end{padding-left:24px;padding-right:24px}
+    .scope,.mock-grid,.trap,.fork-branches,.choice{grid-template-columns:1fr}
+    .prd-row,.cg-row{grid-template-columns:1fr}
+    .hero{min-height:auto;padding:80px 0 40px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .typing{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav>
+  <div class="brand">Enex × <span>Enerlink</span></div>
+  <div class="brand-sub">Prueba técnica · Julio Araya</div>
+  <a href="#hero" data-s="hero"><span class="n">00</span>Inicio</a>
+  <a href="#industria" data-s="industria"><span class="n">01</span>La industria</a>
+  <a href="#problema" data-s="problema"><span class="n">02</span>El caso</a>
+  <a href="#diagnostico" data-s="diagnostico"><span class="n">03</span>Diagnóstico</a>
+  <a href="#propuesta" data-s="propuesta"><span class="n">04</span>Propuesta</a>
+  <a href="#solucion" data-s="solucion"><span class="n">05</span>La solución</a>
+  <a href="#supuestos" data-s="supuestos"><span class="n">06</span>Supuestos</a>
+  <a href="#discusion" data-s="discusion"><span class="n">07</span>Discusión</a>
+  <div class="nav-foot">
+    PRD completo en<br><a href="https://app.notion.com/p/3ab236a8d74781628d31cb007f751c40" target="_blank">Notion →</a>
+  </div>
+</nav>
+
+<main>
+
+<section id="hero" class="hero">
+  <h1>Caso Enex × Enerlink</h1>
+  <p class="hero-sub">Prueba técnica · Product Manager · Julio Araya</p>
+  <div class="scroll-hint"><span class="dot"></span>Bajar para ver el caso</div>
+</section>
+
+<section id="industria">
+  <div class="eyebrow">01 · La industria</div>
+  <h2>El negocio de Enex y el rol de Enerlink</h2>
+
+  <div class="ind-map">
+    <div class="ind-top">
+      <div class="actor cpo">
+        <div class="role">Opera los cargadores</div>
+        <div class="nm">Enex <span class="sig">· CPO</span></div>
+        <div class="desc">180 puntos · Santiago y Valparaíso</div>
+      </div>
+      <div class="ocpp">
+        <span class="lbl">OCPP</span>
+        <div class="line"></div>
+        <span class="sub">estándar abierto</span>
+      </div>
+      <div class="actor cms">
+        <div class="role">Gestiona los cargadores</div>
+        <div class="nm">Enerlink <span class="sig">· CMS</span></div>
+        <div class="desc">software agnóstico al hardware</div>
+      </div>
+    </div>
+
+    <div class="cols">
+      <div class="col-head l">Qué le importa a Enex</div>
+      <div></div>
+      <div class="col-head r">Qué entrega Enerlink</div>
+
+      <div class="acc l hot">
+        <button class="acc-head" aria-expanded="false"><span>Success rate <span class="hot-badge">este caso</span></span><span class="chev">+</span></button>
+        <div class="acc-body"><div><p>Porcentaje de sesiones que terminan bien. Cada falla es un ingreso perdido y un cliente que no pudo cargar.</p></div></div>
+      </div>
+      <div class="link-cell"><div class="conn"></div></div>
+      <div class="acc r hot">
+        <button class="acc-head" aria-expanded="false"><span>Monitoreo y alertas</span><span class="chev">+</span></button>
+        <div class="acc-body"><div><p>Enerlink monitorea el estado de cada cargador en tiempo real y avisa cuando algo falla, para que el operador reaccione antes de perder sesiones.</p></div></div>
+      </div>
+
+      <div class="cstack l">
+        <div class="acc">
+          <button class="acc-head" aria-expanded="false"><span>Cargadores en la red</span><span class="chev">+</span></button>
+          <div class="acc-body"><div><p>Cuántos puntos operativos tiene Enex. En una industria temprana, más cargadores en más lugares significa más densidad de red y más lock-in del conductor. Es el principal driver de crecimiento.</p></div></div>
+        </div>
+        <div class="acc">
+          <button class="acc-head" aria-expanded="false"><span>Utilización por cargador</span><span class="chev">+</span></button>
+          <div class="acc-body"><div><p>kWh entregados sobre la capacidad instalada. Un cargador ocioso es margen perdido; subir su uso es rentabilidad.</p></div></div>
+        </div>
+        <div class="acc">
+          <button class="acc-head" aria-expanded="false"><span>Uptime</span><span class="chev">+</span></button>
+          <div class="acc-body"><div><p>Porcentaje de tiempo que el cargador está operativo. Uno caído no genera ingreso y erosiona la confianza en la red.</p></div></div>
+        </div>
+        <div class="acc">
+          <button class="acc-head" aria-expanded="false"><span>Margen por kWh</span><span class="chev">+</span></button>
+          <div class="acc-body"><div><p>El spread entre lo que Enex paga por la energía y lo que cobra. La tarificación dinámica por hora del día es la palanca para ensancharlo.</p></div></div>
+        </div>
+      </div>
+      <div></div>
+      <div class="cstack r">
+        <div class="acc">
+          <button class="acc-head" aria-expanded="false"><span>Tarificación dinámica</span><span class="chev">+</span></button>
+          <div class="acc-body"><div><p>Permite fijar tarifas distintas por hora del día, potencia o tipo de usuario, para que Enex aproveche el costo variable de la energía.</p></div></div>
+        </div>
+        <div class="acc">
+          <button class="acc-head" aria-expanded="false"><span>Gestión remota</span><span class="chev">+</span></button>
+          <div class="acc-body"><div><p>Deja operar los cargadores a distancia: reiniciar, configurar y diagnosticar sin ir a terreno.</p></div></div>
+        </div>
+        <div class="acc">
+          <button class="acc-head" aria-expanded="false"><span>Pagos y facturación</span><span class="chev">+</span></button>
+          <div class="acc-body"><div><p>Procesa el cobro de cada sesión e integra los medios de pago y la emisión de documentos tributarios.</p></div></div>
+        </div>
+        <div class="acc">
+          <button class="acc-head" aria-expanded="false"><span>Analítica de operación</span><span class="chev">+</span></button>
+          <div class="acc-body"><div><p>Consolida los datos de uso y costos de la red para que Enex tome decisiones sobre precios, ubicaciones y capacidad.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ind-caption">
+      Este caso vive en el cruce resaltado: el <b>success rate</b> de Enex, y el <b>monitoreo y alertas</b> con que Enerlink lo protege.
+    </div>
+  </div>
+</section>
+
+<section id="problema">
+  <div class="eyebrow">02 · El caso</div>
+  <h2>El caso</h2>
+
+  <div class="beat">
+    <div class="beat-label">El síntoma</div>
+    <div class="big-num">90% <span class="ba">→</span> <span class="bd">78%</span></div>
+    <div class="big-lbl">Success rate en 3 meses</div>
+    <p class="beat-note">Enex amenaza con no renovar en 6 meses si no hay mejoras visibles.</p>
+  </div>
+
+  <div class="beat">
+    <div class="beat-label">La trampa</div>
+    <div class="trap">
+      <div class="trap-quote">"Necesitamos alertas más inteligentes, mi equipo no puede estar pendiente del dashboard todo el día."<span class="who">— Jefe de Operaciones, Enex</span></div>
+      <div class="trap-data">
+        <div class="td-lead">La frase suena a que el problema son las alertas. Los datos:</div>
+        <div class="td col">
+          <div class="td-main"><span class="tv">71%</span><span class="tl">de las alertas se auto-resuelven solas</span></div>
+          <div class="td-sub">El equipo aprendió a ignorarlas: <em>alert fatigue</em>.</div>
+        </div>
+        <div class="td"><span class="tv">2 de 4</span><span class="tl">operadores abren el dashboard</span></div>
+      </div>
+    </div>
+    <p class="trap-close">La solución que pide el cliente no apunta a su propio problema. El trabajo es traducir la señal, no ejecutarla literal.</p>
+  </div>
+
+  <div class="beat">
+    <div class="beat-label">Un síntoma, dos causas</div>
+    <div class="fork-top"><div class="symptom">Success rate <span class="s-down">78% ↓</span></div></div>
+    <svg class="fork-lines" viewBox="0 0 100 36" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M50 0 V8 C50 26 25 16 25 36"></path>
+      <path d="M50 0 V8 C50 26 75 16 75 36"></path>
+    </svg>
+    <div class="fork-branches">
+      <div class="cause">
+        <div class="c-tag">Causa A · Las sesiones fallan</div>
+        <div class="c-data">OCPP timeout 40%<br>falla de pago 25%<br>offline 20%</div>
+        <p class="c-note">85% de los incidentes son técnicos. Baja el success rate de raíz. Es infraestructura.</p>
+      </div>
+      <div class="cause">
+        <div class="c-tag">Causa B · Se reacciona tarde</div>
+        <div class="c-data">27 min de respuesta vs 15 comprometidos<br>3 de 10 críticas dentro de SLA</div>
+        <p class="c-note">El equipo no contiene el daño a tiempo.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="beat">
+    <div class="beat-label">La elección</div>
+    <div class="choice">
+      <div class="ch a">
+        <span class="ch-badge">Roadmap</span>
+        <div class="ch-t">Causa A · Las sesiones fallan</div>
+      </div>
+      <div class="ch b">
+        <span class="ch-badge">Este trimestre</span>
+        <div class="ch-t">Causa B · Se reacciona tarde</div>
+      </div>
+    </div>
+    <p>Ataco la Causa B este trimestre: más apalancamiento rápido, cabe en 2 developers, y es la mejora visible que Enex exige. La Causa A (arreglar las fallas) es infraestructura profunda y va al roadmap.</p>
+    <div class="oneliner"><p>Esto mejora el <span class="accent-word">tiempo de reacción</span>, no la tasa de fallas. Por eso mi métrica de éxito será el SLA, no el success rate directo.</p></div>
+  </div>
+</section>
+
+<section id="diagnostico">
+  <div class="eyebrow">03 · Diagnóstico · Parte 1</div>
+  <h2>Antes de proponer, tres definiciones</h2>
+
+  <div class="block">
+    <ul class="qlist">
+      <li>
+        <span class="qn">01</span>
+        <div>
+          <p class="qh">¿Cuál es el problema a resolver?</p>
+          <p>El equipo de Enex no reacciona a tiempo a los incidentes que sí puede resolver, porque el sistema genera demasiado ruido y no llega al canal donde el equipo realmente trabaja. Síntoma medible: SLA crítico incumplido el 70% de las veces.</p>
+        </div>
+      </li>
+      <li>
+        <span class="qn">02</span>
+        <div>
+          <p class="qh">¿Qué información buscaría antes de comprometerme?</p>
+          <ul class="ilist">
+            <li><b>Segmentar la caída del success rate</b>¿Es pareja o se concentra en ciertos cargadores, sitios o modelos de hardware? Si pocos cargadores explican la mayoría de las fallas, el problema es otro.</li>
+            <li><b>Qué cambió hace 3 meses</b>La caída tiene fecha de inicio. Busco el evento gatillante: cargadores nuevos, cambio de proveedor de pago, una actualización.</li>
+            <li><b>Entrevistar a los 2 operadores que no abren el dashboard</b>Entender por qué no lo usan y qué hacen en WhatsApp en su lugar.</li>
+            <li><b>Ver la data cruda de las 380 alertas</b>Identificar cuáles se auto-resuelven y si son reconocibles por tipo, para validar si silenciar el ruido es técnicamente viable.</li>
+            <li><b>El origen del SLA de 15 min</b>¿Es un compromiso interno o un contrato de Enex con sus usuarios finales? Cambia a quién sirve la solución.</li>
+            <li><b>Si la alerta crítica es accionable por el operador</b>Si no existe una acción rápida (reset remoto, reintento) y requiere ir a terreno, enrutar mejor no cambia el desenlace. Es clave: sin esto, la solución no funciona.</li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <span class="qn">03</span>
+        <div>
+          <p class="qh">¿Qué NO resolvería en esta iteración?</p>
+          <p>La causa raíz de los OCPP timeouts (es un producto en sí mismo, va al roadmap). La configuración self-service de reglas. El rediseño del dashboard (el equipo ya no lo mira). La clasificación de falla por responsabilidad.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="oneliner"><p>Elijo atacar la <span class="accent-word">capa operativa</span>, no la causa raíz: es donde hay más impacto con 2 developers en un trimestre, y es la mejora visible que Enex necesita para renovar.</p></div>
+</section>
+
+<section id="propuesta">
+  <div class="eyebrow">04 · Propuesta · Parte 2</div>
+  <h2>PRD en una página</h2>
+  <p>Resumen ejecutivo del PRD. La especificación completa está en Notion.</p>
+
+  <div class="prd">
+    <div class="prd-head">
+      <div class="t">Alertas accionables para Enex</div>
+      <div class="pill">v1 · este trimestre</div>
+    </div>
+    <div class="prd-body">
+      <div class="cgoal">
+        <div class="cg-title">Clear goal</div>
+        <div class="cg-row"><span class="cg-k">Usuario</span><p>El operador de turno de Enex. Trabaja desde WhatsApp, no frente al dashboard. Necesita saber qué se rompió, dónde y qué hacer.</p></div>
+        <div class="cg-row"><span class="cg-k">Problema</span><p>No reacciona a tiempo a los incidentes accionables, ahogado en ruido de alertas.</p></div>
+        <div class="cg-row"><span class="cg-k">Caso de uso</span><p>Cuando ocurre una alerta crítica, el operador la recibe en WhatsApp con contexto suficiente para actuar dentro del SLA.</p></div>
+      </div>
+      <div class="prd-row"><div class="k">Objetivo</div><div class="v">Reducir el tiempo de reacción del equipo a incidentes accionables, para demostrar la mejora visible que sostiene la renovación.</div></div>
+      <div class="prd-row"><div class="k">Métrica</div><div class="v"><span class="metric-inline">% críticas dentro de SLA · <b>30% → ≥70%</b></span><br><span style="font-size:12.5px;color:var(--ink-faint)">Guardrail: que el success rate no siga cayendo · que WhatsApp no recree la fatiga.</span></div></div>
+      <div class="prd-row"><div class="k">Solución</div><div class="v">
+        <strong>1 · Priorizar.</strong> El 71% que se auto-resuelve en menos de 5 min no notifica a nadie: queda registrado, silenciado. Solo escala lo accionable.<br><br>
+        <strong>2 · Enrutar.</strong> Las críticas van por WhatsApp con contexto: cargador, sitio, tipo de falla, SLA corriendo y acción sugerida (reset remoto).<br><br>
+        <strong>3 · Dar visibilidad.</strong> Una vista simple del % dentro de SLA. El instrumento que hace la mejora visible para la renovación.
+      </div></div>
+      <div class="prd-row"><div class="k">Alcance</div><div class="v">
+        <div class="scope">
+          <div class="scope-col in"><h4>En scope · v1</h4><ul>
+            <li><span class="mk">+</span>Reglas de priorización por tipo</li>
+            <li><span class="mk">+</span>Silenciar ruido auto-resoluble</li>
+            <li><span class="mk">+</span>Enrutamiento a WhatsApp con contexto</li>
+            <li><span class="mk">+</span>Acción sugerida en la alerta</li>
+            <li><span class="mk">+</span>Vista de cumplimiento de SLA</li>
+          </ul></div>
+          <div class="scope-col out"><h4>Fuera · v1</h4><ul>
+            <li><span class="mk">−</span>Motor ML de clasificación</li>
+            <li><span class="mk">−</span>Self-service de reglas</li>
+            <li><span class="mk">−</span>Rediseño del dashboard</li>
+            <li><span class="mk">−</span>Fix de causa raíz OCPP</li>
+            <li><span class="mk">−</span>Clasificación por responsabilidad</li>
+          </ul></div>
+        </div>
+      </div></div>
+      <div class="prd-row"><div class="k">Roadmap</div><div class="v"><strong>Fase 1</strong> (trimestre) priorización + WhatsApp + SLA. <strong>Fase 2</strong> atribución de falla + self-service. <strong>Fase 3</strong> health-check predictivo, ataca la causa raíz.</div></div>
+    </div>
+  </div>
+
+  <a class="cta-link" href="https://app.notion.com/p/3ab236a8d74781628d31cb007f751c40" target="_blank">Ver PRD completo en Notion <span class="arr">→</span></a>
+</section>
+
+<section id="solucion">
+  <div class="eyebrow">05 · La solución, en pantalla</div>
+  <h2>Panel priorizado y alerta crítica en WhatsApp</h2>
+  <p>A la izquierda, el panel: ruido silenciado y alertas accionables con su SLA corriendo. A la derecha, la misma alerta crítica en WhatsApp, con la acción sugerida.</p>
+
+  <div class="mock-frame">
+    <div class="mock-grid">
+      <div class="panel">
+        <div class="panel-head"><div class="pt">Alertas · Enex</div><div class="loc">Santiago · Valparaíso</div></div>
+        <div class="panel-sub">180 puntos de carga · turno en curso</div>
+        <div class="mini-metrics">
+          <div class="mm"><div class="l">Críticas activas</div><div class="v d">3</div></div>
+          <div class="mm"><div class="l">Ruido silenciado</div><div class="v">271</div></div>
+          <div class="mm"><div class="l">Dentro de SLA</div><div class="v g">72%</div></div>
+        </div>
+        <div class="sec-label">Requiere acción</div>
+        <div class="alert crit">
+          <div class="alert-top"><div class="at">OCPP timeout</div><div class="sla">SLA 13:42</div></div>
+          <div class="where">Cargador EVX-114 · Costanera Center</div>
+          <span class="abtn primary">Reset remoto</span> <span class="abtn">Ver detalle</span>
+        </div>
+        <div class="alert crit">
+          <div class="alert-top"><div class="at">Falla de pago</div><div class="sla">SLA 06:18</div></div>
+          <div class="where">Cargador EVX-052 · Mall Marina</div>
+          <span class="abtn">Reintentar cobro</span> <span class="abtn">Ver detalle</span>
+        </div>
+        <div class="alert warn">
+          <div class="alert-top"><div class="at">Cargador offline</div><div class="st">en revisión</div></div>
+          <div class="where" style="margin-bottom:0">Cargador EVX-133 · Providencia</div>
+        </div>
+        <div class="muted-row"><span class="ic">◌</span>271 alertas auto-resolubles silenciadas · registradas, sin notificar</div>
+      </div>
+
+      <div class="wa">
+        <div class="wa-head">
+          <span class="wa-back">‹</span>
+          <div class="wa-gav">⚡</div>
+          <div class="wa-hinfo">
+            <div class="wa-name">Operaciones Enex · Alertas</div>
+            <div class="wa-status">Bot Enerlink, Carla, Diego, tú</div>
+          </div>
+          <span class="wa-more">⋮</span>
+        </div>
+        <div class="wa-chat">
+          <div class="wa-day">Hoy</div>
+          <div class="msg in" style="animation-delay:.3s">
+            <span class="m-av av-bot">⚡</span>
+            <div class="sender s-bot">Bot Enerlink</div>
+            <div class="mt"><b>Alerta crítica · OCPP timeout</b><br>Cargador EVX-114 · Costanera Center<br>Sin respuesta hace 8 min<br><span class="sla">⏱ SLA vence en 13 min</span></div>
+            <div class="wa-cta">↺ Ejecutar reset remoto</div>
+            <span class="stamp">14:32</span>
+          </div>
+          <div class="msg out" style="animation-delay:1.4s">
+            <div class="mt">Voy yo</div>
+            <span class="stamp">14:33 <span class="ticks">✓✓</span></span>
+          </div>
+          <div class="msg out" style="animation-delay:2.4s">
+            <div class="mt">Reset enviado, esperando…</div>
+            <span class="stamp">14:34 <span class="ticks">✓✓</span></span>
+          </div>
+          <div class="msg in ok" style="animation-delay:3.6s">
+            <span class="m-av av-bot">⚡</span>
+            <div class="sender s-bot">Bot Enerlink</div>
+            <div class="mt">Cargador EVX-114 volvió a estado <b>Operativo</b>. Sesión recuperada ✅</div>
+            <span class="stamp">14:39</span>
+          </div>
+          <div class="typing">
+            <span class="m-av av-carla">C</span>
+            <span class="tdot"></span><span class="tdot"></span><span class="tdot"></span>
+          </div>
+          <div class="msg in" style="animation-delay:6.4s">
+            <span class="m-av av-carla">C</span>
+            <div class="sender s-carla">Carla · Supervisora</div>
+            <div class="mt">👍 buena, quedó dentro de SLA</div>
+            <span class="stamp">14:40</span>
+          </div>
+        </div>
+        <div class="wa-input">
+          <div class="wa-field"><span class="wi">🙂</span><span class="ph">Mensaje</span><span class="wi">📎</span><span class="wi">📷</span></div>
+          <div class="wa-mic">🎤</div>
+        </div>
+      </div>
+    </div>
+    <div class="mock-caption">Mockup · panel priorizado + enrutamiento a WhatsApp</div>
+  </div>
+</section>
+
+<section id="supuestos">
+  <div class="eyebrow">06 · Supuestos críticos · Parte 3</div>
+  <h2>Dónde esta apuesta puede fallar</h2>
+
+  <div class="block">
+  <h3 style="font-family:var(--disp);font-weight:500;font-size:19px;margin:0 0 6px">¿Qué tendría que ser verdad para que fracase?</h3>
+  <ul class="ilist">
+    <li><b>Ataqué la causa equivocada <span class="rtag">riesgo de diagnóstico</span></b>Si el success rate cae porque los cargadores fallan más y no porque se reacciona tarde, mi solución mejora la reacción pero no mueve el success rate.</li>
+    <li><b>La alerta no es accionable <span class="rtag">riesgo de ejecución</span></b>Si al operador le llega la alerta pero no tiene una acción rápida disponible (requiere un técnico en terreno), mejorar el enrutamiento no cambia el desenlace.</li>
+    <li><b>WhatsApp reproduce la fatiga <span class="rtag">riesgo de solución</span></b>Si el filtrado de ruido no es suficientemente agresivo, el grupo se satura y recreamos el problema en otro canal.</li>
+    <li><b>Silenciar esconde fallas <span class="rtag">riesgo de datos</span></b>Si dentro del 71% que se auto-resuelve hay alertas que dejan una sesión fallida detrás, silenciarlas oculta el problema en vez de resolverlo.</li>
+  </ul>
+
+  <h3 style="font-family:var(--disp);font-weight:500;font-size:19px;margin:32px 0 6px">¿Qué descarté que podría cambiar la dirección?</h3>
+  <ul class="ilist">
+    <li><b>Atacar la causa raíz de los timeouts</b>Sería un producto de monitoreo predictivo de salud de cargadores, no de alertas. Es la apuesta alternativa más fuerte; la descarté por foco y tiempo, no por irrelevante.</li>
+    <li><b>Que sea un problema de adopción, no de producto</b>Quizás la plataforma ya tiene lo necesario y el problema es que Enex no la usa (2 de 4 operadores). Si fuera así, la dirección sería onboarding y CS, no desarrollo.</li>
+    <li><b>Self-service de alertas</b>Dejar que cada operador configure sus propias reglas (qué recibir, por qué canal, con qué umbral). Lo descarté porque el equipo ya está saturado: sumarle trabajo de configuración empeora la fatiga. Primero reglas por defecto que funcionen solas; el self-service viene después, cuando el equipo esté estabilizado.</li>
+  </ul>
+
+  <h3 style="font-family:var(--disp);font-weight:500;font-size:19px;margin:32px 0 6px">Si tuviera 1 developer en vez de 2</h3>
+  <div class="oneliner" style="margin-bottom:0"><p>Recortaría el alcance: <span class="accent-word">solo el enrutamiento de críticas a WhatsApp</span> con contexto mínimo. Y en vez de construir, integraría: API de WhatsApp Business vía webhook o n8n. Prioridad: time-to-value.</p></div>
+  </div>
+</section>
+
+<section id="discusion">
+  <div class="eyebrow">07 · La discusión</div>
+  <h2>SaaS, LLMs y producto</h2>
+
+  <div class="disc">
+    <div class="qn">Pregunta 1</div>
+    <h3>"SaaS is dead": ¿cómo cambian las reglas?</h3>
+    <p>Los LLMs bajaron el costo de construir la funcionalidad de un SaaS, no el de ganar el mercado. Lo que dejó de ser defendible es la funcionalidad básica: las pantallas, los formularios y los reportes genéricos ya no son un moat, porque cualquiera los clona en un fin de semana.</p>
+    <p>Lo que sigue siendo defendible es la capa que un recién llegado no tiene:</p>
+    <ul class="dlist">
+      <li><b>Datos propietarios y operacionales.</b> Enerlink ya está conectado con varios CPOs y acumuló el comportamiento histórico de miles de puntos de carga. Con esa data se detectan patrones y se anticipan fallas; un competidor sin data no puede.</li>
+      <li><b>Integraciones profundas.</b> Hablar OCPP con hardware heterogéneo en la realidad de Latam no es imposible, pero no es llegar y conectar.</li>
+      <li><b>Conocimiento del dominio y compliance.</b> Enerlink ya conoce las reglas regulatorias de la industria de carga en cada país.</li>
+      <li><b>Workflows end-to-end.</b> Flujos completos de pago y automatización que no son triviales de replicar.</li>
+      <li><b>Switching cost y distribución.</b> Un CPO con su operación e histórico montado en Enerlink no se cambia fácil, y llegar a cerrar contratos con operadores toma tiempo.</li>
+    </ul>
+    <p>El giro de fondo: esa misma capa (data, dominio, integraciones) es la que le permite a Enerlink aprovechar la IA mejor que nadie, en vez de temerle. La amenaza no es que venga una startup con un LLM a copiar; parada sobre su data y su conocimiento del negocio, Enerlink está en mejor posición que cualquier recién llegado para convertir la IA en valor: benchmarking entre operadores, optimización de tarifas, salud predictiva de cargadores.</p>
+    <p>Para Enerlink en concreto, la estrategia debería doblar la apuesta ahí: profundizar el moat de data e integraciones, y usar la IA sobre esa base, no competir por features que se copian.</p>
+    <p>Un ejemplo de que esta dirección ya está en el ADN de Enerlink: además del SaaS, ya opera ChaaS (Charging as a Service), donde no vende solo el software sino la operación completa de carga (financia, construye y opera la infraestructura, y entrega el resultado). Ese modelo, donde el cliente paga por el resultado y no por las pantallas, es justamente el más difícil de copiar y el que mejor se apalanca con IA aplicada a decisiones de operación: diagnóstico de incidentes, optimización de tarifas y forecasting de demanda. La IA no reemplaza el moat, lo profundiza.</p>
+  </div>
+
+  <div class="disc">
+    <div class="qn">Pregunta 2</div>
+    <h3>¿Cómo cambian los LLMs el desarrollo de producto?</h3>
+    <p>Lo que más cambia es que construir se volvió barato y rápido. Antes producto pasaba gran parte del tiempo especificando features para que ingeniería las construyera; ahora ingeniería, con IA, produce rápido. El cuello de botella se mueve del código al juicio de producto: qué construir, para quién, con qué prioridad. Eso es lo que permanece y se vuelve más valioso. Escuché a una PM de Anthropic describir cómo trabajan producto en ese entorno, y me quedé con tres ideas que calzan justo con este punto:</p>
+    <ul class="dlist">
+      <li><b>Objetivos y casos de uso claros.</b> Como los LLMs pueden hacer casi cualquier cosa, la ambigüedad es el enemigo. Hay que acotar: este usuario, este problema, este caso de uso que debe funcionar. Es lo que hice en el PRD con el clear goal.</li>
+      <li><b>Proceso repetible para releases rápidos.</b> Sacar una versión temprana como piloto, conectarla con usuarios reales (key users) para que digan cómo la ven, e iterar con ese feedback. La idea es bajarle la presión a cada release: tratarlo como algo reversible y no definitivo, para lanzar rápido sin miedo.</li>
+      <li><b>Framework de colaboración.</b> Cuando la IA borra las fronteras entre lo que puede hacer un ingeniero, un PM y un diseñador, el PM define cómo colaboran las áreas. En este caso: producto y desarrollo construyen las alertas por WhatsApp; cuando están listas se documenta en un lugar único, y desde ahí ventas, operaciones y customer success se enteran y hacen su parte.</li>
+    </ul>
+    <div class="oneliner"><p>En un equipo donde ingeniería ya corre rápido con IA, producto no sobra: se vuelve más necesario. Pero cambia de forma, menos escribir specs y más dar dirección, ritmo y coordinación.</p></div>
+  </div>
+
+  <div class="disc">
+    <div class="qn">Pregunta 3</div>
+    <h3>¿Dónde la IA hace más daño que bien?</h3>
+    <p>Un ejemplo que todos hemos vivido: escribir un correo con IA. Muchas veces sale peor que hacerlo uno mismo, porque no conoce tu forma de escribir, usa expresiones que suenan a inglés traducido o nomenclatura que no calza en español. Terminas pensando "mejor lo hubiera escrito yo". Me pasó construyendo una herramienta de cold email: dejar el correo "listo" con IA a veces resta en vez de sumar.</p>
+    <p>En este mismo caso pasa algo parecido pero más grave: usar un LLM para decidir solo qué alerta es crítica y silenciar el resto. Si silencia por error una que importaba, Enex pierde una sesión y la confianza en la herramienta, justo lo que intentamos recuperar. La confianza se pierde una vez. Por eso en mi solución preferí reglas explícitas y auditables, no un modelo autónomo que casi siempre acierta pero no puedo explicar.</p>
+    <p>Y hay un costo escondido: para que un LLM autónomo sea seguro en decisiones así, necesitas un humano auditándolo. Pero entonces lo "automático" deja de serlo, y encima sale más caro, porque necesitas un rol dedicado a vigilarlo. El control que lo hace seguro le quita el ahorro que prometía.</p>
+    <p>La distinción de fondo: hay dos formas de meter IA. Una es un proceso humano acelerado por IA, donde el humano decide y la IA asiste. La otra es la IA en el centro haciendo el proceso, con un humano que audita. La primera es segura. La segunda es donde la IA hace más daño que bien si el error es caro o irreversible, y es justo donde conviene ir despacio.</p>
+  </div>
+</section>
+
+<div class="end">Julio Araya · Prueba técnica Product Manager · Enerlink · 2026</div>
+
+<!-- MARCADOR DE VERSIÓN: editar la fecha en cada actualización -->
+<div class="version">Última actualización · 2026-07-28</div>
+
+</main>
+</div>
+
+<script>
+  const links=[...document.querySelectorAll('nav a[data-s]')];
+  const secs=links.map(l=>document.getElementById(l.dataset.s)).filter(Boolean);
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        const id=e.target.id;
+        links.forEach(l=>l.classList.toggle('active',l.dataset.s===id));
+      }
+    });
+  },{rootMargin:'-45% 0px -50% 0px'});
+  secs.forEach(s=>io.observe(s));
+
+  const wa=document.querySelector('.wa');
+  if(wa){
+    const wio=new IntersectionObserver((es,o)=>{
+      es.forEach(e=>{if(e.isIntersecting){wa.classList.add('play');o.disconnect();}});
+    },{threshold:.35});
+    wio.observe(wa);
+  }
+
+  document.querySelectorAll('.acc-head').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const open=b.closest('.acc').classList.toggle('open');
+      b.setAttribute('aria-expanded',open);
+    });
+  });
+</script>
+</body>
+</html>
