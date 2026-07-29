@@ -88,10 +88,13 @@
   .big-num{font-family:var(--disp);font-weight:500;font-size:clamp(52px,8vw,84px);line-height:1;letter-spacing:-.03em}
   .big-num .ba{color:var(--ink-faint);font-size:.5em;vertical-align:.15em;margin:0 4px}
   .big-num .bd{color:var(--danger)}
+  .big-lead{font-family:var(--mono);font-size:14px;letter-spacing:.02em;color:var(--ink-soft);margin-bottom:10px}
   .big-lbl{font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);margin-top:12px}
   .beat-note{margin-top:14px}
   .trap{display:grid;grid-template-columns:1.1fr 1fr;gap:26px;align-items:center;margin-top:4px;max-width:980px}
+  .trap-side{display:flex;flex-direction:column;gap:16px}
   .trap-quote{font-family:var(--disp);font-style:italic;font-size:18px;line-height:1.55;color:var(--ink);border-left:2px solid var(--line);padding-left:18px}
+  .trap-read{font-size:14px;line-height:1.6;color:var(--ink-soft);padding-left:20px;margin:0}
   .trap-quote .who{display:block;font-family:var(--sans);font-style:normal;font-size:12.5px;color:var(--ink-faint);margin-top:10px}
   .trap-data{display:flex;flex-direction:column;gap:10px}
   .td-lead{font-size:13.5px;font-weight:500;color:var(--ink);line-height:1.45}
@@ -438,17 +441,20 @@
 
   <div class="beat">
     <div class="beat-label">El síntoma</div>
+    <div class="big-lead">Success rate · últimos 3 meses</div>
     <div class="big-num">90% <span class="ba">→</span> <span class="bd">78%</span></div>
-    <div class="big-lbl">Success rate en 3 meses</div>
     <p class="beat-note">Enex amenaza con no renovar en 6 meses si no hay mejoras visibles.</p>
   </div>
 
   <div class="beat">
-    <div class="beat-label">La trampa</div>
+    <div class="beat-label">La señal y el dato</div>
     <div class="trap">
-      <div class="trap-quote">"Necesitamos alertas más inteligentes, mi equipo no puede estar pendiente del dashboard todo el día."<span class="who">— Jefe de Operaciones, Enex</span></div>
+      <div class="trap-side">
+        <div class="trap-quote">"Necesitamos alertas más inteligentes, mi equipo no puede estar pendiente del dashboard todo el día."<span class="who">— Jefe de Operaciones, Enex</span></div>
+        <p class="trap-read">Antes que un diagnóstico, frustración: apela a una emoción, no a un dato. El equipo está saturado y pide alivio. Mi trabajo no es tomar la solución que propone al pie de la letra, sino leer qué hay debajo.</p>
+      </div>
       <div class="trap-data">
-        <div class="td-lead">La frase suena a que el problema son las alertas. Los datos:</div>
+        <div class="td-lead">En lo concreto, apunta a las alertas. Pero los datos muestran otra cosa:</div>
         <div class="td col">
           <div class="td-main"><span class="tv">71%</span><span class="tl">de las alertas se auto-resuelven solas</span></div>
           <div class="td-sub">El equipo aprendió a ignorarlas: <em>alert fatigue</em>.</div>
