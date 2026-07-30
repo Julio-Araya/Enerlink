@@ -340,7 +340,6 @@
   }
 
   .end{padding:80px 72px 40px;max-width:1100px;color:var(--ink-faint);font-size:13px;font-family:var(--mono)}
-  .version{max-width:1100px;padding:0 72px 24px;text-align:right;font-family:var(--mono);font-size:10.5px;color:var(--ink-faint)}
 
   @media(max-width:880px){
     .wrap{grid-template-columns:1fr}
@@ -575,6 +574,7 @@
             <li><b>Ver la data cruda de las 380 alertas</b>Categorizar los incidentes por tipo (categorización de incidentes, en términos de soporte) para identificar cuáles se auto-resuelven y cuáles son recurrentes. Eso valida si silenciar el ruido es técnicamente viable y separa el ruido de los problemas de fondo.</li>
             <li><b>El origen del SLA de 15 min</b>¿Es una meta interna que Enex se puso, o un contrato con sus clientes finales (un mall, una flota) con multas de por medio? Si es interno, hay flexibilidad para ajustarlo. Si es contractual, es intocable y la solución tiene que ayudar a cumplirlo sí o sí. Cambia la urgencia y el diseño.</li>
             <li><b>Si la alerta crítica es accionable por el operador</b>Si no existe una acción rápida (reset remoto, reintento) y requiere ir a terreno, enrutar mejor no cambia el desenlace. Es clave: sin esto, la solución no funciona.</li>
+            <li><b>Comparar con otros CPOs de la red</b>¿El success rate de 78% de Enex es malo, o es normal para la industria? ¿Otros operadores con el mismo hardware tienen los mismos OCPP timeouts? Enerlink ve el comportamiento de muchos CPOs; ese benchmarking ayuda a saber si el problema es de Enex o del ecosistema.</li>
           </ul>
         </div>
       </li>
@@ -649,6 +649,7 @@
   <div class="eyebrow">05 · La solución, en pantalla</div>
   <h2>Panel priorizado y alerta crítica en WhatsApp</h2>
   <p>A la izquierda, el panel: ruido silenciado y alertas accionables con su SLA corriendo. A la derecha, la misma alerta crítica en WhatsApp, con la acción sugerida.</p>
+  <p>Antes de llegar a esta pantalla van bocetos rápidos y pruebas con los operadores. Lo que se ve acá es el resultado de ese paso, no el punto de partida.</p>
 
   <button class="replay" type="button"><span class="ri">▶</span>Reproducir</button>
 
@@ -804,9 +805,6 @@
 </section>
 
 <div class="end">Julio Araya · Prueba técnica Product Manager · Enerlink · 2026</div>
-
-<!-- MARCADOR DE VERSIÓN: editar la fecha en cada actualización -->
-<div class="version">Última actualización · 2026-07-28</div>
 
 </main>
 </div>
